@@ -1,0 +1,116 @@
+\documentclass{beamer}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{bbm}
+\usetheme{Copenhagen}
+% \usepackage{beamerthemesplit} // Activate for custom appearance
+
+\title{Deep Q-Learning hyper-parameters optimization for portfolio management}
+\author{CS 229 - Project}
+\date{\today}
+
+\setbeamercolor{block title}{bg=gray!30,fg=black}
+\setbeamerfont{block title}{series=\bfseries}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section[Outline]{}
+\frame{
+   \tableofcontents
+}
+
+\section{Introduction}
+\frame{
+  \frametitle{Introduction}
+   
+  \begin{itemize}
+  	\item The proposed framework is to utlize machine learning methods to tune portfolio optimization parameters.
+  	\item Bayesian Optimization (Gaussian Process) and Deep Q-Learning are considered for the purpose of this research.
+	\item The tax-managed equity portfolio optimization will be studied as the underlying system.
+   \end{itemize}
+}
+\section{The Tax-Managed portfolio optimization}
+ \frame{
+  \frametitle{The Tax-Managed portfolio optimization}
+  	\begin{itemize}
+		\item The tax-managed portfolio optimization aims to track the return of a benchmark while minimizing the tax impact.
+		\begin{equation*}
+			\begin{aligned}
+			& \underset{w^p} {\text{minimize}}
+			 & & TE^2 + \mathnormal{\sum_{i=1}^{M} ( {w_i}^0  - {w_i} ) TR_i (1 - \frac{c_i}{p_i})} \\
+			 & \text{S.t:}
+ 			 & &\mathnormal{LB \leq  \mathbf{w_A} \leq UB}   \text{\hspace{3mm} Assets bound constraints}\\
+			 &&&\mathnormal{{LB^f} \leq  \mathbf{w^{\prime}_A B_f} \leq {UB^f}}   \text{\hspace{3mm} Factor f exposure constraints}\\
+			 &&& \mathnormal{\sum_{k=1}^{m} w_k = w_i}  \text{\hspace{3mm} sum of (m) lots weights to asset i weight}\\
+			 &&& \mathnormal{\mathbf{w_p} \geq 0 }  \text{\hspace{3mm} long-only constraints}\\
+			 &&& \mathnormal{\sum_{} q_i \leq N }  \text{\hspace{3mm} max positions (N) constraint}
+			\end{aligned}
+		\end{equation*}
+			\end{itemize}
+}
+
+\frame{
+  \frametitle{The Tax-Managed portfolio optimization - Cont'd}
+  	\begin{itemize}
+		\item The mixed integer quadratic optimization goal is to minimize tax cost in addition to the square of tracking error : \\
+			\hspace{10mm} $ TE^2  = \mathbf{w^{\prime}_A B} \mathbf{\Omega}_F \mathbf{B^{\prime} w_A}  + \mathbf{w_A^{\prime} D w_A} $
+		\item The continuous Decision variables:
+			\begin{itemize}
+				\item ${w_j}^p$ Portfolio weights (at asset level)
+				\item $w_i$ lot $i$ weight
+			\end{itemize}
+		\item The Binary Decision variables:
+			\begin{itemize}
+				\item $q_i = 1$ if ${w_j}^p > 0$
+			\end{itemize}
+		\item Other Variables/Constants:
+			\begin{itemize}
+				\item ${w_i}^0$ initial lot i weight
+				\item $w_i$ final lot i weight
+				\item $TR_i$ Tax Rate (long term or short term)
+				\item $c_i$ cost basis (asset price at purchase)
+				\item $p_i$ current price (current asset price)
+			\end{itemize}
+		
+	\end{itemize}
+}
+
+\frame{
+  \frametitle{The Tax-Managed portfolio optimization - Cont'd}
+  	\begin{itemize}
+		\item Other Variables/Constants (cont'd):
+			\begin{itemize}
+				\item $\mathbf{w_A} $ Active weights (vector of ${w_j}^p - {w_j}^b$)
+				\item $\mathbf{\Omega}_F$ Factors Covariance Matrix
+				\item $\mathbf{B}$ Factors Loadings/Exposures Matrix
+			\end{itemize}
+		\item the factors covariance matrix and exposures can be estimated using Principle components analysis of historical stocks returns
+		\item we also can use the quandl covariance matrix. In this case we won't need to use factor analysis altogether. 
+		
+	\end{itemize}
+}
+
+
+\section{Bayesian Optimization}
+ \frame{
+  \frametitle{Bayesian Optimization}
+  	
+  }
+  
+  \section{Deep Q-Learning}
+ \frame{
+  \frametitle{Deep Q-Learning}
+  	
+  }
+  \section{References}
+ \frame{
+  \frametitle{References}
+  	
+  }
+  
+\end{document}
